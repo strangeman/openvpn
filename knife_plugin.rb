@@ -185,6 +185,7 @@ module OpenvpnPlugin
       server_subject = make_name vpn_server_name, cert_config
       server_cert, server_key = generate_cert_and_key server_subject, cert_config, ca_cert=ca_cert, ca_key=ca_key
       dh_params = make_dh_params cert_config
+      databag_path = get_databag_path vpn_server_name
       ui.info "Creating data bag directory at #{databag_path}"
       create_databag_dir vpn_server_name
       save_databag_item("openvpn-config", vpn_server_name, cert_config)
