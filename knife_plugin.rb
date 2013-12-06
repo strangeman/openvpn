@@ -136,6 +136,11 @@ module OpenvpnPlugin
       directory_path = File.join(Dir.pwd, "data_bags/openvpn-#{server_name}")
       directory_path
     end
+
+    def get_databag_name(server_name)
+      databag_name = "openvpn-#{server_name}"
+      databag_name
+    end
     
     def save_databag_item(id, server_name, item_hash)
       databag_path = get_databag_path server_name
@@ -166,7 +171,7 @@ module OpenvpnPlugin
     end
 
     def run
-      check_attrubutes
+      check_arguments
       vpn_server_name = name_args.first
       check_existing_databag vpn_server_name, fail_if_exists=true
       check_databag_secret
@@ -178,7 +183,7 @@ module OpenvpnPlugin
       ca_subject = make_name "CA", cert_config
       ca_cert, ca_key = generate_cert_and_key ca_subject, cert_config, selfsigned=true
       server_subject = make_name vpn_server_name, cert_config
-      server_cert, server_key = generate_cert_and_key server_subject, cert_config, selfsigned=false, ca_cert=ca_cert, ca_key=ca_key
+      server_cert, server_key = generate_cert_and_key server_subject, cert_config, ca_cert=ca_cert, ca_key=ca_key
       dh_params = make_dh_params cert_config
       ui.info "Creating data bag directory at #{databag_path}"
       create_databag_dir vpn_server_name
@@ -188,16 +193,16 @@ module OpenvpnPlugin
       save_databag_item("openvpn-dh", vpn_server_name, {'dh' => dh_params.to_pem})
     end
 
-    def check_attrubutes
+    def check_arguments
       unless name_args.size == 1
         fail_with "Specify NAME of new openvpn server!"
       end
     end
 
-    def create_databag_dir(vpn_server_name)
-      directory_path = File.join(Dir.pwd, "data_bags/openvpn-#{vpn_server_name}")
-      Dir.mkdir(directory_path, 0755)
-      directory_path
+    def create_databag_dir(server_name)
+      databag_path = get_databag_path server_name
+      Dir.mkdir(databag_path, 0755)
+      databag_path
     end
     
     def read_with_prompt_and_default(prompt, default)
@@ -234,7 +239,7 @@ module OpenvpnPlugin
       numeric_prompt_default.each { |entry| cert_config[entry[0]] = read_with_prompt_and_default(entry[1], entry[2]).to_i }
       ['rsa_keysize', 'dh_keysize'].each do |keysize|
         unless [1024, 2048, 4096].include? cert_config[keysize]
-          fail_with "Wrong #{keysize} length, must be one of (1024/2048/4096)"
+          fail_with "Wrong value for #{keysize}, must be one of 1024/2048/4096"
         end
       end
       cert_config
@@ -245,9 +250,8 @@ module OpenvpnPlugin
     
     banner "knife openvpn user create SERVERNAME USERNAME (options)"
     
-   
     def run
-      check_attrubutes
+      check_arguments
       server_name = name_args[0]
       user_name = name_args[1]
       check_existing_databag server_name, fail_if_exists=false
@@ -256,7 +260,7 @@ module OpenvpnPlugin
     end
 
     def create_new_user(server_name, user_name)
-      databag_name = "openvpn-#{server_name}"
+      databag_name = get_databag_name server_name
       ca_item = load_databag_item(databag_name, 'openvpn-ca')
       ca_cert, ca_key = load_cert_and_key ca_item['cert'], ca_item['key']
       config_item = load_databag_item(databag_name, 'openvpn-config')
@@ -267,7 +271,7 @@ module OpenvpnPlugin
       ui.info "Done, now you can upload #{databag_name}/#{user_name}.json"
     end
 
-    def check_attrubutes
+    def check_arguments
       unless name_args.size == 2
         fail_with "Specify SERVERNAME and USERNAME for new openvpn user!"
       end
@@ -283,7 +287,7 @@ module OpenvpnPlugin
     end
 
     def run
-      check_attrubutes
+      check_arguments
       server_name = name_args[0]
       user_name = name_args[1]
       check_existing_databag server_name, fail_if_exists=false
@@ -292,7 +296,7 @@ module OpenvpnPlugin
     end
 
     def export_user(server_name, user_name)
-      databag_name = "openvpn-#{server_name}"
+      databag_name = get_databag_name server_name
       ca_item = load_databag_item(databag_name, 'openvpn-ca')
       ca_cert, ca_key = load_cert_and_key ca_item['cert'], ca_item['key']
 
