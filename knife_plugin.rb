@@ -355,7 +355,7 @@ module OpenvpnPlugin
       config_content
     end
 
-    def check_attrubutes
+    def check_arguments
       unless name_args.size == 2
         fail_with "Specify SERVERNAME and USERNAME for new openvpn user!"
       end
