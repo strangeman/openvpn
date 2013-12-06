@@ -31,7 +31,7 @@ cp /path/to/this/openvpn/cookbook/knife_plugin.rb /path/to/your/project/.chef/pl
 knife openvpn server create office
 ```
 
-```producton``` - is a name of vpn-server, there is some limitations on this: no dots, no commas, no spaces, no special symbols for reasons
+```office``` - is a name of vpn-server, there is some limitations on this: no dots, no commas, no spaces, no special symbols for reasons. 
 
 * Great, now check ```data_bags``` directory, you will find new databag ```openvpn-office``` with few items for ca, dh, server and ssl config. Now it is time to upload it to server
 
@@ -71,9 +71,4 @@ knife data bag from file openvpn-office data_bags/openvpn-office/john.json
 knife openvpn user export office john
 ```
 resulting archive contains config (.ovpn), ca cert, John's cert and key
-
-
-
-
-
 
