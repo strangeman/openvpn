@@ -91,8 +91,6 @@ template "/etc/openvpn/#{server_name}.conf" do
   notifies :restart, "service[openvpn]", :delayed
 end
 
-puts server_mode
-
 if server_mode == "bridged"
   template "/etc/openvpn/up.sh" do
     source "up.sh.erb"

@@ -30,7 +30,7 @@ module OpenvpnPlugin
   class Openvpn < Chef::Knife
 
     def run
-      puts "knife openvpn (user|server) action ARGS OPTS"
+      ui.info "knife openvpn (user|server) action ARGS OPTS"
     end
    
     deps do
@@ -60,7 +60,7 @@ module OpenvpnPlugin
     end
     
     def fail_with(error_message)
-      puts "Error: #{error_message}"
+      ui.error "Error: #{error_message}"
       exit 1
     end
 
@@ -264,7 +264,7 @@ module OpenvpnPlugin
       user_subject = make_name user_name, cert_config
       user_cert, user_key = generate_cert_and_key user_subject, cert_config, selfsigned=false, ca_cert=ca_cert, ca_key=ca_key
       save_databag_item(user_name, server_name, {'cert' => user_cert.to_pem, 'key' => user_key.to_pem})
-      puts "Done, now you can upload #{databag_name}/#{user_name}.json"
+      ui.info "Done, now you can upload #{databag_name}/#{user_name}.json"
     end
 
     def check_attrubutes
@@ -330,7 +330,6 @@ module OpenvpnPlugin
       unless search_result.length == 1
         fail_with "Found #{search_result.length} vpn servers for #{server_name}"
       end
-      server_data = Hash.new
       config_content = ""
       newline = "\n"
       node = search_result[0]

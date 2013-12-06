@@ -1,7 +1,7 @@
 openvpn Cookbook
 ================
 
-So, why the world need another openvpn cookbook?
+So, why the world needs another openvpn cookbook?
 
 TODO
 ----------------
@@ -16,7 +16,8 @@ USAGE
 
 For example you want to setup vpn server and call it ```office```
 
-* Ensure that you have ```.chef/encrypted_data_bag_secret```, otherwise you can generate one with ```openssl rand -base64 512 > .chef/encrypted_data_bag_secret```
+* Ensure that you have ```.chef/encrypted_data_bag_secret```. 
+Otherwise you can generate one with ```openssl rand -base64 512 > .chef/encrypted_data_bag_secret```
 
 * Install knife plugin into your project chef directory 
 
@@ -33,14 +34,14 @@ knife openvpn server create office
 
 ```office``` - is a name of vpn-server, there is some limitations on this: no dots, no commas, no spaces, no special symbols for reasons. 
 
-* Great, now check ```data_bags``` directory, you will find new databag ```openvpn-office``` with few items for ca, dh, server and ssl config. Now it is time to upload it to server
+* Great, now check ```data_bags``` directory, you will find new databag ```openvpn-office``` with few items for ca, dh, cert/key pair and some openssl config. Now it is time to upload it to Chef server
 
 ```
 knife data bag create openvpn-office --secret-file=.chef/encrypted_data_bag_secret
 knife data bag from file openvpn-office data_bags/openvpn-office/*
 ```
 
-* OK, it is time for a server. Add ```recipe[openvpn]``` to node run_list, and override default attributes
+* Add ```recipe[openvpn]``` to node run_list, and override default attributes
 
 ```
   "run_list": [
@@ -56,9 +57,10 @@ knife data bag from file openvpn-office data_bags/openvpn-office/*
   ....
 
 ```
-Chef run! 
+Chef, run! 
 
-* When server is up and running we can add some users to start use it. No moar certificate management pain
+* When server is up and running we can add some users to start use it. 
+No moar certificate management pain
 
 ```
 knife openvpn user create office john
