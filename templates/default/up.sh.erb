@@ -1,0 +1,11 @@
+#!/bin/sh
+
+BR=$1
+ETHDEV=$2
+TAPDEV=$3
+MTU=$4
+
+echo "1" > /proc/sys/net/ipv4/ip_forward
+/sbin/ip link set "$TAPDEV" up promisc on mtu "$MTU"
+/sbin/ip link set "$ETHDEV" promisc on
+/sbin/brctl addif $BR $TAPDEV
