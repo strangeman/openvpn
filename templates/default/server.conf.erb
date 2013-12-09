@@ -12,8 +12,6 @@ down "/etc/openvpn/down.sh <%= @config[:network_bridge] %> <%= @config[:network_
 server <%= "#{@config[:subnet]} #{@config[:netmask]}" %>
 local <%= @config[:server_ip] %>
 <% end -%>
-link-mtu <%= @config[:link_mtu] %>
-tun-mtu <%= @config[:tun_mtu] %>
 
 ca   /etc/openvpn/<%= @server_name %>/keys/ca.crt
 cert /etc/openvpn/<%= @server_name %>/keys/server.crt
@@ -26,6 +24,10 @@ ifconfig-pool-persist /etc/openvpn/<%= @server_name %>/<%= @server_name %>.ipp
 <% end -%>
 <%= "push \"redirect-gateway def1\"" if @config[:redirect_gateway] %>
 <%= "push \"dhcp-option DNS #{@config[:push_dns_server]}\"" if @config[:push_dns_server] %>
+
+
+<%= "link-mtu #{@config[:link_mtu]}" if @config[:link_mtu] %>
+<%= "cipher #{@config[:tun_mtu]}" if @config[:tun_mtu] %>
 
 <%= "duplicate-cn" if @config[:duplicate_cn] %>
 <%= "client-to-client" if @config[:client_to_client] %>
