@@ -13,6 +13,7 @@ server <%= "#{@config[:subnet]} #{@config[:netmask]}" %>
 local <%= @config[:server_ip] %>
 <% end -%>
 link-mtu <%= @config[:link_mtu] %>
+tun-mtu <%= @config[:tun_mtu] %>
 
 ca   /etc/openvpn/<%= @server_name %>/keys/ca.crt
 cert /etc/openvpn/<%= @server_name %>/keys/server.crt
@@ -42,5 +43,5 @@ persist-tun
 tmp-dir /tmp
 status /var/log/openvpn/<%= @server_name %>-status.log
 log-append /var/log/openvpn/<%= @server_name %>.log
-verb 3
+verb <%= @config[:verb] %>
 mute 20

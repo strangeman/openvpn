@@ -15,7 +15,10 @@ default['openvpn']['default']['network_bridge'] = 'br0'
 default['openvpn']['default']['network_interface'] = 'eth0'
 default['openvpn']['default']['dhcp_start'] = '127.0.0.100'
 default['openvpn']['default']['dhcp_end'] = '127.0.0.150'
-default['openvpn']['default']['link_mtu'] = '1400'
+default['openvpn']['default']['link_mtu'] = '1500'
+default['openvpn']['default']['tun_mtu'] = '1500'
+default['openvpn']['default']['verb'] = '3'
+
 
 default['openvpn']['default']['push'] = []
 default['openvpn']['default']['duplicate_cn'] = false

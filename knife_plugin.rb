@@ -343,7 +343,7 @@ module OpenvpnPlugin
       config_content << "proto  #{node['openvpn'][server_name]['proto']}" << newline
       config_content << "remote  #{node['openvpn'][server_name]['remote_host']} "
       config_content << "#{node['openvpn'][server_name]['port']}" << newline
-      config_content << "link-mtu  #{node['openvpn'][server_name]['link_mtu']}" << newline
+      config_content << "verb  #{node['openvpn'][server_name]['verb']}" << newline
       config_content << "comp-lzo" << newline
       config_content << "ca ca.crt" << newline
       config_content << "cert #{user_name}.crt" << newline
