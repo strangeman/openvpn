@@ -110,8 +110,7 @@ Bridged setup need more configuration and configured network bridge on your serv
         "dhcp_start": "10.90.5.100",
         "dhcp_end": "10.90.5.240",
         "network_bridge": "br0",
-        "network_interface": "eth0",
-        "script_security": "2"
+        "network_interface": "eth0"
       }
     }
   }
@@ -124,23 +123,36 @@ Attributes
 For default values see attributes/default.rb
 
 ```server_name``` - Name of openvpn server. Use node['openvpn'][server_name] hash for configs
+
 ```remote_host``` - This address will be used for clients config as vpn server address
+
 ```server_ip``` - server is accepting connections on this IP
+
 ```netmask``` - netmask to use (for routed and bridged modes)
+
 ```port``` - network port to listen on
+
 ```proto``` - protocol to use (tcp or udp)
+
 ```mode``` - OpenVPN can work in two modes: routed and bridged. See OpenVPN docs at https://community.openvpn.net/openvpn/wiki/BridgingAndRouting 
-```dev``` - type of dev to use (tun or tap).
-```subnet``` - only for routed mode. This subnet is used for vpn client addresses. Server takes first address in this net
+
+```dev``` - type of dev to use (tun or tap)
+
+```subnet``` - only in routed mode. This subnet is used for vpn client addresses. Server takes first address in this net
+
 
 ```network_bridge``` - only in bridged mode. OpenVPN tap interface will be added to this bridge (see up/down scripts)
+
 ```network_interface``` - only in bridged mode. Network interface used for bridging, we need to turn promisc mode for it
+
 ```dhcp_start```/```dhcp_end``` - only in bridged mode. Assign client addresses from this range
+
 ```script_security``` - set it to "2" for bridged mode to allow script execution needed to configure network interfaces
 
 ```push``` - array of route strings that will be pushed on client connect
 
 ```client_to_client``` - true\false. Allow clients talk to each other
-```comp_lzo``` - true\false. Use compression
-```redirect_gateway``` - true\false. Send all traffic through vpn channel
 
+```comp_lzo``` - true\false. Use compression
+
+```redirect_gateway``` - true\false. Send all traffic through vpn channel
