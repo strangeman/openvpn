@@ -353,7 +353,6 @@ module OpenvpnPlugin
       config_content << "nobind" << newline
       config_content << "persist-key" << newline
       config_content << "persist-tun" << newline
-      config_content << "nobind" << newline
       config_content
     end
 
