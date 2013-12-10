@@ -183,7 +183,7 @@ module OpenvpnPlugin
       ca_subject = make_name "CA", cert_config
       ca_cert, ca_key = generate_cert_and_key ca_subject, cert_config, selfsigned=true
       server_subject = make_name vpn_server_name, cert_config
-      server_cert, server_key = generate_cert_and_key server_subject, cert_config, ca_cert=ca_cert, ca_key=ca_key
+      server_cert, server_key = generate_cert_and_key server_subject, cert_config, selfsigned=false, ca_cert=ca_cert, ca_key=ca_key
       dh_params = make_dh_params cert_config
       databag_path = get_databag_path vpn_server_name
       ui.info "Creating data bag directory at #{databag_path}"
