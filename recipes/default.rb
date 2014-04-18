@@ -94,7 +94,6 @@ end
 if server_mode == "bridged"
   template "/etc/openvpn/up.sh" do
     source "up.sh.erb"
-    variables :config => config
     owner "root"
     group "openvpn"
     mode 00740
@@ -103,7 +102,6 @@ if server_mode == "bridged"
 
   template "/etc/openvpn/down.sh" do
     source "down.sh.erb"
-    variables :config => config
     owner "root"
     group "openvpn"
     mode 00740
