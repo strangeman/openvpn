@@ -125,6 +125,34 @@ module OpenvpnPlugin
     
       return cert, key
     end
+    
+    def issue_crl(revoke_info, serial, lastup, nextup, extensions,
+                 issuer, issuer_key, digest)
+     crl = OpenSSL::X509::CRL.new
+     crl.issuer = issuer.subject
+     crl.version = 1
+     crl.last_update = lastup
+     crl.next_update = nextup
+     revoke_info.each{|rserial, time, reason_code|
+       revoked = OpenSSL::X509::Revoked.new
+       revoked.serial = rserial
+       revoked.time = time
+       enum = OpenSSL::ASN1::Enumerated(reason_code)
+       ext = OpenSSL::X509::Extension.new("CRLReason", enum)
+       revoked.add_extension(ext)
+       crl.add_revoked(revoked)
+     }
+     ef = OpenSSL::X509::ExtensionFactory.new
+     ef.issuer_certificate = issuer
+     ef.crl = crl
+     crlnum = OpenSSL::ASN1::Integer(serial)
+     crl.add_extension(OpenSSL::X509::Extension.new("crlNumber", crlnum))
+     extensions.each{|oid, value, critical|
+       crl.add_extension(ef.create_extension(oid, value, critical))
+     }
+     crl.sign(issuer_key, digest)
+     crl
+   end
 
     def load_cert_and_key(cert_str, key_str)
       cert = OpenSSL::X509::Certificate.new cert_str
@@ -179,17 +207,21 @@ module OpenvpnPlugin
     end
 
     def create_new_server(vpn_server_name)
+      now = Time.at(Time.now.to_i)
       cert_config = ask_for_cert_config
       ca_subject = make_name "CA", cert_config
       ca_cert, ca_key = generate_cert_and_key ca_subject, cert_config, true
       server_subject = make_name vpn_server_name, cert_config
       server_cert, server_key = generate_cert_and_key server_subject, cert_config, false, ca_cert, ca_key
       dh_params = make_dh_params cert_config
+      crl = issue_crl([], 1, now, now+3600, [], ca_cert, ca_key, OpenSSL::Digest::SHA1.new)
       databag_path = get_databag_path vpn_server_name
       ui.info "Creating data bag directory at #{databag_path}"
       create_databag_dir vpn_server_name
       save_databag_item("openvpn-config", vpn_server_name, cert_config)
       save_databag_item("openvpn-ca", vpn_server_name, {'cert' => ca_cert.to_pem, 'key' => ca_key.to_pem})
+      save_databag_item("openvpn-crl", vpn_server_name, {'crl' => crl.to_pem, 'revoke_info' => []})
+
       save_databag_item("openvpn-server", vpn_server_name, {'cert' => server_cert.to_pem, 'key' => server_key.to_pem})
       save_databag_item("openvpn-dh", vpn_server_name, {'dh' => dh_params.to_pem})
     end
@@ -362,5 +394,53 @@ module OpenvpnPlugin
       end
     end
   end
+
+  class OpenvpnUserRevoke < Openvpn
+
+    banner "knife openvpn user revoke SERVERNAME USERNAME"
+
+    deps do
+      require 'chef/search/query'
+    end
+
+    def run
+      check_arguments
+      server_name = name_args[0]
+      user_name = name_args[1]
+      check_existing_databag server_name, false
+      check_databag_secret
+      revoke_user server_name, user_name
+    end
+
+    def revoke_user(server_name, user_name)
+      now = Time.at(Time.now.to_i)
+      databag_name = get_databag_name server_name
+      ca_item = load_databag_item(databag_name, 'openvpn-ca')
+      ca_cert, ca_key = load_cert_and_key ca_item['cert'], ca_item['key']
+      crl_item = load_databag_item(databag_name, 'openvpn-crl')
+      old_crl = OpenSSL::X509::CRL.new crl_item['crl']
+      revoke_info = crl_item['revoke_info']
+      user_item = load_databag_item(databag_name, user_name)
+      user_cert, user_key = load_cert_and_key user_item['cert'], user_item['key']
+      user_revoke_info = [[user_cert.serial, now, 0]]
+      new_revoke_info = revoke_info + user_revoke_info
+      new_crl = add_user_to_crl ca_cert, ca_key, old_crl, new_revoke_info
+      save_databag_item("openvpn-crl", server_name, {'crl' => new_crl.to_pem, 'revoke_info' => new_revoke_info})
+      ui.info "revoked #{user_name}, do not forget to upload CRL databag item"
+    end
+
+    def add_user_to_crl(ca_cert, ca_key, old_crl, revoke_info)
+     new_crl = issue_crl(revoke_info, old_crl.serial + 1, Time.at(Time.now.to_i), Time.at(Time.now.to_i)+3600, [], ca_cert, ca_key, OpenSSL::Digest::SHA1.new)
+                 issuer, issuer_key, digest)      
+      new_crl
+    end
+
+    def check_arguments
+      unless name_args.size == 2
+        fail_with "Specify SERVERNAME and USERNAME for existing openvpn user!"
+      end
+    end
+  end
+
 
 end

@@ -59,11 +59,13 @@ end
 
 dh_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", "openvpn-dh")
 ca_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", "openvpn-ca")
+crl_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", "openvpn-crl")
 server_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", "openvpn-server")
 
 files = {
  'ca.crt' => ca_item["cert"],
  'dh.pem' => dh_item["dh"],
+ 'crl.pem' => crl_item["crl"],
  'server.crt' => server_item["cert"],
  'server.key' => server_item["key"]
 }
