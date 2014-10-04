@@ -417,9 +417,14 @@ module OpenvpnPlugin
       databag_name = get_databag_name server_name
       ca_item = load_databag_item(databag_name, 'openvpn-ca')
       ca_cert, ca_key = load_cert_and_key ca_item['cert'], ca_item['key']
-      crl_item = load_databag_item(databag_name, 'openvpn-crl')
-      old_crl = OpenSSL::X509::CRL.new crl_item['crl']
-      revoke_info = crl_item['revoke_info']
+      begin
+        crl_item = load_databag_item(databag_name, 'openvpn-crl')
+        old_crl = OpenSSL::X509::CRL.new crl_item['crl']
+        revoke_info = crl_item['revoke_info']
+      rescue
+        old_crl = issue_crl([], 1, now, now+3600, [], ca_cert, ca_key, OpenSSL::Digest::SHA1.new)
+        revoke_info = []
+      end
       user_item = load_databag_item(databag_name, user_name)
       user_cert, user_key = load_cert_and_key user_item['cert'], user_item['key']
       user_revoke_info = [[user_cert.serial, now, 0]]
@@ -430,7 +435,7 @@ module OpenvpnPlugin
     end
 
     def add_user_to_crl(ca_cert, ca_key, old_crl, revoke_info)
-     new_crl = issue_crl(revoke_info, old_crl.serial + 1, Time.at(Time.now.to_i), Time.at(Time.now.to_i)+3600, [], ca_cert, ca_key, OpenSSL::Digest::SHA1.new)
+      new_crl = issue_crl(revoke_info, old_crl.serial + 1, Time.at(Time.now.to_i), Time.at(Time.now.to_i)+3600, [], ca_cert, ca_key, OpenSSL::Digest::SHA1.new)
                  issuer, issuer_key, digest)      
       new_crl
     end
