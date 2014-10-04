@@ -85,7 +85,7 @@ resulting archive contains config (.ovpn), ca cert, John's cert and key
 
 * Revokation of user certificate is also possible
 ```
-knife openvpn user export office john
+knife openvpn user revoke office john
 knife data bag from file openvpn-office data_bags/openvpn-office/openvpn-crl.json
 ```
 
