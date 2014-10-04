@@ -436,7 +436,6 @@ module OpenvpnPlugin
 
     def add_user_to_crl(ca_cert, ca_key, old_crl, revoke_info)
       new_crl = issue_crl(revoke_info, old_crl.serial + 1, Time.at(Time.now.to_i), Time.at(Time.now.to_i)+3600, [], ca_cert, ca_key, OpenSSL::Digest::SHA1.new)
-                 issuer, issuer_key, digest)      
       new_crl
     end
 
