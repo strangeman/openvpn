@@ -72,7 +72,7 @@ files = {
 
 files.each do |name, content|
   file "/etc/openvpn/#{server_name}/keys/#{name}" do
-    owner "root"
+    owner "openvpn"
     group "openvpn"
     mode "0600"
     action :create_if_missing
