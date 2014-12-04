@@ -4,7 +4,10 @@ This file is used to list changes made in each version of the openvpn cookbook.
 
 0.1.2
 -----
-- Initial release of openvpn
+- Fix Rubocop warnings
+- Add Test Kitchen, Rubocop and Travis CI
+- Add encrypted data bags to integration test
+- Update docs
 
 0.1.1
 -----
