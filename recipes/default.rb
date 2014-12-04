@@ -24,93 +24,93 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-package "openvpn"
+package 'openvpn'
 
 server_name = node['openvpn']['server_name']
 config = Chef::Mixin::DeepMerge.merge(node['openvpn']['default'].to_hash, node['openvpn'][server_name].to_hash)
 server_mode = config['mode']
 
-if server_mode == "bridged"
-  package "bridge-utils"
+if server_mode == 'bridged'
+  package 'bridge-utils'
 end
 
-user "openvpn"
-group "openvpn" do
-  members ["openvpn"]
+user 'openvpn'
+group 'openvpn' do
+  members ['openvpn']
 end
 
 directory "/etc/openvpn/#{server_name}" do
-  owner "root"
-  group "openvpn"
-  mode 00770
+  owner 'root'
+  group 'openvpn'
+  mode '0770'
 end
 
 directory "/etc/openvpn/#{server_name}/keys" do
-  owner "root"
-  group "openvpn"
-  mode 00770
+  owner 'root'
+  group 'openvpn'
+  mode '0770'
 end
 
-directory "/var/log/openvpn" do
-  owner "root"
-  group "root"
-  mode 00755
+directory '/var/log/openvpn' do
+  owner 'root'
+  group 'root'
+  mode '0755'
 end
 
-dh_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", "openvpn-dh")
-ca_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", "openvpn-ca")
-crl_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", "openvpn-crl")
-server_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", "openvpn-server")
+dh_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", 'openvpn-dh')
+ca_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", 'openvpn-ca')
+crl_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", 'openvpn-crl')
+server_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", 'openvpn-server')
 
 files = {
- 'ca.crt' => ca_item["cert"],
- 'dh.pem' => dh_item["dh"],
- 'crl.pem' => crl_item["crl"],
- 'server.crt' => server_item["cert"],
- 'server.key' => server_item["key"]
+  'ca.crt' => ca_item['cert'],
+  'dh.pem' => dh_item['dh'],
+  'crl.pem' => crl_item['crl'],
+  'server.crt' => server_item['cert'],
+  'server.key' => server_item['key']
 }
 
 files.each do |name, content|
   file "/etc/openvpn/#{server_name}/keys/#{name}" do
-    owner "openvpn"
-    group "openvpn"
-    mode "0600"
+    owner 'openvpn'
+    group 'openvpn'
+    mode '0600'
     action :create_if_missing
     content content
   end
 end
 
-service "openvpn" do
+service 'openvpn' do
   action [:enable]
 end
 
 template "/etc/openvpn/#{server_name}.conf" do
-  source "server.conf.erb"
-  variables :server_name => server_name, :config => config
-  owner "root"
-  group "openvpn"
-  mode 00640
-  notifies :restart, "service[openvpn]", :delayed
+  source 'server.conf.erb'
+  variables server_name: server_name, config: config
+  owner 'root'
+  group 'openvpn'
+  mode '0640'
+  notifies :restart, 'service[openvpn]', :delayed
 end
 
-if server_mode == "bridged"
-  template "/etc/openvpn/up.sh" do
-    source "up.sh.erb"
-    owner "root"
-    group "openvpn"
-    mode 00740
-    notifies :restart, "service[openvpn]", :delayed
+if server_mode == 'bridged'
+  template '/etc/openvpn/up.sh' do
+    source 'up.sh.erb'
+    owner 'root'
+    group 'openvpn'
+    mode '0740'
+    notifies :restart, 'service[openvpn]', :delayed
   end
 
-  template "/etc/openvpn/down.sh" do
-    source "down.sh.erb"
-    owner "root"
-    group "openvpn"
-    mode 00740
-    notifies :restart, "service[openvpn]", :delayed
+  template '/etc/openvpn/down.sh' do
+    source 'down.sh.erb'
+    owner 'root'
+    group 'openvpn'
+    mode '0740'
+    notifies :restart, 'service[openvpn]', :delayed
   end
 end
 
-service "openvpn" do
+service 'openvpn' do
   action [:start]
 end
