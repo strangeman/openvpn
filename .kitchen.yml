@@ -1,0 +1,22 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: ubuntu-12.04
+    driver:
+      box: express42/ubuntu12.04-chef11
+  - name: ubuntu-14.04
+    driver:
+      box: express42/ubuntu-14.04
+
+suites:
+  - name: default
+    data_bags_path: test/integration/default/data_bags
+    encrypted_data_bag_secret_key_path: test/integration/default/encrypted_data_bag_secret
+    run_list:
+      - recipe[openvpn]
+    attributes:
