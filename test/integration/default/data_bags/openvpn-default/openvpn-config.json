@@ -1,0 +1,57 @@
+{
+  "C": {
+    "encrypted_data": "QOccFiBxkmEy8ThQSxvfYOyCnjyPLYrO3KA5wh/bDKo=\n",
+    "iv": "SNYfmfrFudVlf94lM8qfUQ==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "ST": {
+    "encrypted_data": "95lJqGWoVhayJbnY4OTyO0/fgPmhyuYLPqhaRtZiWzg=\n",
+    "iv": "NmhXqmpw0r5cbwWhRSPkHg==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "L": {
+    "encrypted_data": "fnv7RIl0ZSJKlFJcpyCCn3dzyloFkVH2FLZtPccE8rA=\n",
+    "iv": "4mXVTq5X5MkR7ImTXhQMgA==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "O": {
+    "encrypted_data": "NMEUXV1EBbpud1NK0jrbPJ2AzSh9/6CiPp2AdVwNI2I=\n",
+    "iv": "O0CHf/RW08B4CAJbn/PvYw==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "OU": {
+    "encrypted_data": "kT+Iaqbci+AsifglnezXD5JNB7IQNi/rBrzLubCUWLc=\n",
+    "iv": "8ep2/Aqa0kTalsCnpDEkTw==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "mail": {
+    "encrypted_data": "snRFYH2sY8EhY3PgeAR8u9ZqCgOzrFUl+PIXhpmJn/wQRsEPHT5W1b+nK15F\nib0U\n",
+    "iv": "FcwEWsjSNg8bplWGYmJ8Pw==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "rsa_keysize": {
+    "encrypted_data": "/bf0AXvmzBPuGKBjinydQyHdmtf+0j8Db3ez9j34zJ4=\n",
+    "iv": "ExyAVRUlVVguDWq8bL5w/g==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "dh_keysize": {
+    "encrypted_data": "aPm/iEdYLXakDRBa0QIEzkedQAlqSWVhxNrfmOFYolw=\n",
+    "iv": "c5tDwRimv3oWCE/F3BFHBw==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "years_to_expire": {
+    "encrypted_data": "nh3BbYGWw7d1sg6KJE5adJAsygaCvKa+q+A2W0+0PsQ=\n",
+    "iv": "MZ61yuBXKi++XDND9nuDQg==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "id": "openvpn-config"
+}

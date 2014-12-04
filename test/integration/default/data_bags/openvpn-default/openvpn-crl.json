@@ -1,0 +1,15 @@
+{
+  "crl": {
+    "encrypted_data": "0EO2AqPdxoOrL8pdg99SF2alRK4E1qZRSBW9VrPu6tfUMiwUGom2YD8zdyGJ\nrbsLpdfHW+k9FSJEW7ExFUG0zvoYm4B3MFL/O48lFFbzwfk4+2mQX/pPAiHO\nYOw0YPrWdyLnF4npdXtdWfpDa7C7Ho6RVo2vnMBkB/buYeqWm5bo9r0fA/70\n1BojetMhLHME0Y1vZA5dg8OvS9/dl8PYF26ErN2D+9/UE6zVRY1+lGSi6h/u\nTqW1P1tQ3zTPzUTpfYuIh0BGlaEROZZP+cP9VT8xW73RQpZQi1oUkfS2BZ9w\nbxzUcGyIQ2HxKQA/9kplxNp9Stw4zLGk+rc/tGyQt1En2UAYOj+FmfeLPvYx\n476Pb1rUfGXkUhoa0+9PtumL2gkXf9raF6FIlX7UcV/MjGHq3pfyRKRGf4jU\n9BkxHHxz+upBd05f//zzXHnJiuHeDUR7Xggw5y34Hop8dbKbutRHxtz0zSIU\nikuV8qvdr1SF1Bj9sCmmQ9icmWrnVxHwfEtOdmSSYQxkZdbLbOxo3EBtcjY2\ni1HGU8HwSQh5IcMVq2AHPE+JW6MFD7kH+IecyVmfYnPnIoin+8h6BIo3O/hu\n84jo7AB2ki5fawXIsR3ZCipzEWpYChPAgY5xwFuNWKGdWOxp8L2JlYhv0XVw\neew4C0ELSqR7DWVqx+L8Gz7HcTjdrfRUdKogdLRLEHvlkdzkrfq98nL8Cn2U\nTjod+Y7gRDpWeJnXP4u3Egw3c4J3LUY7WE2tzU+6KiLYEwF39yDxqN+oTSGR\n1oA+YZEP0BaoAKVd0PLdeo7Wy6tig7xdMtXJ1uTsBhgqht1In3mRAzwp5LOk\nS9m8X6hHBum3NLCHT7p7fgKfQfaUfjPLfAxvgxnnV5fth7hQTbziCBTwr2qT\nNwTDQFPe9OQDQqFBeUHr+ApNFsIfA98YzjTCs5jvhkr+tKJ9PJIAEQ82zHlz\nTp5hWSQLQ0TPFLoz7s2K4w==\n",
+    "iv": "bpW9cQDRAiujRT3VNkg3ZA==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "revoke_info": {
+    "encrypted_data": "lfJv4LOTzVDwrhvBfQ1Lgj9GeohVJwYV+0JYwRaILPA=\n",
+    "iv": "KIoTjhEN5zbabsQW4MI8sw==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "id": "openvpn-crl"
+}

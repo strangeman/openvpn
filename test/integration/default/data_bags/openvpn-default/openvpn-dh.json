@@ -1,0 +1,9 @@
+{
+  "dh": {
+    "encrypted_data": "r/uo17lu/iij/DQaFfTk8+7YUtprUvx7eC2ncNwbhXFKw3cT53KL7y5iSHdK\niZj17usxdPgJaWb0DOTgkSA9CIkDKdA0vH4QluTGgMCTF9yFP4DCMaVGe7Sd\n4Im1syd6JhNzvwFlmJ/io8Wb/gaLd2LMXgUbkwsBG1UyaroagT3D8TLkwDFe\nKcAMWPoZlseEPdeTyXXuhFsGBKbtsEF/JB4+rFmd5wztQ0Og5N0NbUDPEQWK\nVfe2d5ONs/XLeYrFZ3CNhQtFRptmpKVJlhY29Uof9ueObn5Kq4saykirf582\n1DuRsIfTqA7S9LdS2H1+dntRGMuTTRvAfqbQBiJCuapwuSTmxIjkox+kKTAe\nqL4=\n",
+    "iv": "O8ae4kTZz47Q13+z+MGW8Q==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "id": "openvpn-dh"
+}
