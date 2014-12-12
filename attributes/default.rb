@@ -22,8 +22,8 @@ default['openvpn']['default']['network_bridge'] = 'br0'
 # Only in bridged mode. Network interface used for bridging, we need to turn promisc mode for it.
 default['openvpn']['default']['network_interface'] = 'eth0'
 # Only in bridged mode. Assign client addresses from this range.
-default['openvpn']['default']['dhcp_start'] = '127.0.1.100'
-default['openvpn']['default']['dhcp_end'] = '127.0.1.150'
+default['openvpn']['default']['dhcp_start'] = '127.0.0.100'
+default['openvpn']['default']['dhcp_end'] = '127.0.0.150'
 default['openvpn']['default']['verb'] = '3'
 
 # Array of route strings that will be pushed on client connect.
