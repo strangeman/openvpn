@@ -1,6 +1,6 @@
 # Description
 
-Installs and configures OpenVPN
+Installs and configures OpenVPN.
 
 # Requirements
 
@@ -21,8 +21,8 @@ Installs and configures OpenVPN
 * `node['openvpn']['default']['subnet']` -  Defaults to `"127.0.1.0"`.
 * `node['openvpn']['default']['network_bridge']` -  Defaults to `"br0"`.
 * `node['openvpn']['default']['network_interface']` -  Defaults to `"eth0"`.
-* `node['openvpn']['default']['dhcp_start']` -  Defaults to `"127.0.1.100"`.
-* `node['openvpn']['default']['dhcp_end']` -  Defaults to `"127.0.1.150"`.
+* `node['openvpn']['default']['dhcp_start']` -  Defaults to `"127.0.0.100"`.
+* `node['openvpn']['default']['dhcp_end']` -  Defaults to `"127.0.0.150"`.
 * `node['openvpn']['default']['verb']` -  Defaults to `"3"`.
 * `node['openvpn']['default']['push']` -  Defaults to `"[ ... ]"`.
 * `node['openvpn']['default']['duplicate_cn']` -  Defaults to `"false"`.
@@ -75,6 +75,8 @@ Bridged setup need more configuration and configured network bridge on your serv
 }
 
 ```
+
+See fixture cookbook in `tests/fixtures/cookbooks`.
 
 
 # To-do
@@ -166,6 +168,6 @@ resulting archive contains config (.ovpn), ca cert, John's cert and key
 
 # License and Maintainer
 
-Maintainer:: LLC Express 42 (<info@express42.com>)
+Maintainer:: LLC Express 42 (<cookbooks@express42.com>)
 
 License:: MIT

@@ -30,3 +30,5 @@ Bridged setup need more configuration and configured network bridge on your serv
 }
 
 ```
+
+See fixture cookbook in `tests/fixtures/cookbooks`.
