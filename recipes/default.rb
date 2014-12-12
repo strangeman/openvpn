@@ -30,8 +30,8 @@ server_name = node['openvpn']['server_name']
 config = Chef::Mixin::DeepMerge.merge(node['openvpn']['default'].to_hash, node['openvpn'][server_name].to_hash)
 server_mode = config['mode']
 
-if server_mode == 'bridged'
-  package 'bridge-utils'
+package 'bridge-utils' do
+  only_if { server_mode == 'bridged' }
 end
 
 user 'openvpn'

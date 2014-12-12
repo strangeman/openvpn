@@ -149,7 +149,7 @@ module OpenvpnPlugin
       end
       crl.sign(issuer_key, digest)
       crl
-   end
+    end
 
     def load_cert_and_key(cert_str, key_str)
       cert = OpenSSL::X509::Certificate.new cert_str
