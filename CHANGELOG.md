@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the openvpn cookbook.
 
+0.1.3
+-----
+- Remove knife plugin
+
 0.1.2
 -----
 - Fix Rubocop warnings
