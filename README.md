@@ -8,6 +8,10 @@ Installs and configures OpenVPN.
 
 * Ubuntu
 
+## Gems:
+
+* knife-openvpn
+
 # Attributes
 
 * `node['openvpn']['server_name']` -  Defaults to `"default"`.
@@ -82,8 +86,7 @@ See fixture cookbook in `tests/fixtures/cookbooks`.
 # To-do
 
 1. Revoke access
-2. Un-hardcode plugin
-3. Import existing certs/keys
+2. Import existing certs/keys
 
 
 # Usage
@@ -93,11 +96,10 @@ For example you want to setup vpn server and call it ```office```
 * Ensure that you have ```.chef/encrypted_data_bag_secret```.
 Otherwise you can generate one with ```openssl rand -base64 512 > .chef/encrypted_data_bag_secret```
 
-* Install knife plugin into your project chef directory:
+* Install knife plugin:
 
   ```
-  mkdir -p /path/to/your/project/.chef/plugins/knife
-  cp /path/to/this/openvpn/cookbook/knife_plugin.rb /path/to/your/project/.chef/plugins/knife/openvpn.rb
+  gem install knife-openvpn
   ```
 
 * Create server certificate authority, server cert/key, DH params:
