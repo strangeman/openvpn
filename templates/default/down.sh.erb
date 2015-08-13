@@ -4,5 +4,5 @@ BR=$1
 ETHDEV=$2
 TAPDEV=$3
 
-/sbin/brctl delif $BR $TAPDEV
+<%= @brctl_bin %> delif $BR $TAPDEV
 /sbin/ip link set "$TAPDEV" down

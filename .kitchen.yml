@@ -12,6 +12,12 @@ platforms:
   - name: ubuntu-14.04
     driver:
       box: express42/ubuntu-14.04
+  - name: centos-6.6
+    driver:
+      box: chef/centos-6.6
+  - name: centos-7.1
+    driver:
+      box: chef/centos-7.1
 
 suites:
   - name: bridged
@@ -20,9 +26,29 @@ suites:
     run_list:
       - recipe[openvpn_test::bridged]
     attributes:
+    excludes:
+      - centos-7.1
   - name: routed
     data_bags_path: test/fixtures/data_bags
     encrypted_data_bag_secret_key_path: test/fixtures/encrypted_data_bag_secret
     run_list:
       - recipe[openvpn_test::routed]
     attributes:
+    excludes:
+      - centos-7.1
+  - name: bridged-systemd
+    data_bags_path: test/fixtures/data_bags
+    encrypted_data_bag_secret_key_path: test/fixtures/encrypted_data_bag_secret
+    run_list:
+      - recipe[openvpn_test::bridged_systemd]
+    attributes:
+    includes:
+      - centos-7.1
+  - name: routed-systemd
+    data_bags_path: test/fixtures/data_bags
+    encrypted_data_bag_secret_key_path: test/fixtures/encrypted_data_bag_secret
+    run_list:
+      - recipe[openvpn_test::routed_systemd]
+    attributes:
+    includes:
+      - centos-7.1
