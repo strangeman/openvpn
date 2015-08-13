@@ -1,5 +1,9 @@
 # Name of openvpn server.
 default['openvpn']['server_name'] = 'default'
+
+# install epel on RHEL based hosts
+default['openvpn']['install_epel'] = true
+
 # This address will be used for clients config as vpn server address.
 default['openvpn']['default']['remote_host'] = 'vpn.example.com'
 

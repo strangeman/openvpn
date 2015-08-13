@@ -9,6 +9,8 @@ Installs and configures OpenVPN.
 ## Platform:
 
 * Ubuntu
+* RHEL
+* CentOS
 
 ## Gems:
 
@@ -17,6 +19,7 @@ Installs and configures OpenVPN.
 # Attributes
 
 * `node['openvpn']['server_name']` -  Defaults to `"default"`.
+* `node['openvpn']['install_epel']` -  Defaults to `true`.
 * `node['openvpn']['default']['remote_host']` -  Defaults to `"vpn.example.com"`.
 * `node['openvpn']['default']['server_ip']` -  Defaults to `"127.0.0.1"`.
 * `node['openvpn']['default']['port']` -  Defaults to `"1194"`.

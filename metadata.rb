@@ -8,4 +8,8 @@ version          '0.1.3'
 
 recipe           'openvpn::default', 'Installs and configures OpenVPN.'
 
-supports         'ubuntu'
+%w( ubuntu debian redhat centos fedora scientific amazon ).each do |os|
+  supports os
+end
+
+depends 'yum-epel'

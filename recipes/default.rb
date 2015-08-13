@@ -24,6 +24,10 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+if node['platform_family'] == 'rhel' && node['openvpn']['install_epel']
+  include_recipe 'yum-epel'
+end
+
 package 'openvpn'
 
 server_name = node['openvpn']['server_name']
@@ -77,11 +81,15 @@ files.each do |name, content|
     mode '0600'
     action :create_if_missing
     content content
+    sensitive true
   end
 end
 
-service 'openvpn' do
+service_name = node['platform_family'] == 'rhel' && node['platform_version'].to_f >= 7.0 ? "openvpn@#{server_name}" : 'openvpn'
+
+service service_name do
   action [:enable]
+  only_if { service_name == 'openvpn' }
 end
 
 template "/etc/openvpn/#{server_name}.conf" do
@@ -90,16 +98,21 @@ template "/etc/openvpn/#{server_name}.conf" do
   owner 'root'
   group 'openvpn'
   mode '0640'
-  notifies :restart, 'service[openvpn]', :delayed
+  notifies :restart, "service[#{service_name}]", :delayed
 end
 
 if server_mode == 'bridged'
+  brctl_bin = node['platform_family'] == 'rhel' && node['platform_version'].to_f < 7.0 ? '/usr/sbin/brctl' : '/sbin/brctl'
+
   template '/etc/openvpn/up.sh' do
     source 'up.sh.erb'
     owner 'root'
     group 'openvpn'
     mode '0740'
-    notifies :restart, 'service[openvpn]', :delayed
+    variables(
+      brctl_bin: brctl_bin
+    )
+    notifies :restart, "service[#{service_name}]", :delayed
   end
 
   template '/etc/openvpn/down.sh' do
@@ -107,10 +120,21 @@ if server_mode == 'bridged'
     owner 'root'
     group 'openvpn'
     mode '0740'
-    notifies :restart, 'service[openvpn]', :delayed
+    variables(
+      brctl_bin: brctl_bin
+    )
+    notifies :restart, "service[#{service_name}]", :delayed
   end
 end
 
-service 'openvpn' do
+# needed due to SystemD before version 208-20.el7_1.5 not supporting enable for @ services
+# https://bugzilla.redhat.com/show_bug.cgi?id=1142369
+link "/etc/systemd/system/multi-user.target.wants/#{service_name}.service" do
+  to '/usr/lib/systemd/system/openvpn@.service'
+  link_type :symbolic
+  not_if { service_name == 'openvpn' }
+end
+
+service service_name do
   action [:start]
 end
