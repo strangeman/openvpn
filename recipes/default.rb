@@ -81,6 +81,7 @@ files.each do |name, content|
     mode '0600'
     action :create_if_missing
     content content
+    sensitive true
   end
 end
 
