@@ -129,8 +129,8 @@ end
 
 # needed due to SystemD before version 208-20.el7_1.5 not supporting enable for @ services
 # https://bugzilla.redhat.com/show_bug.cgi?id=1142369
-link "/etc/systemd/system/multi-user.target.wants/openvpn@#{service_name}.service" do
-  to '/lib/systemd/system/openvpn@.service'
+link "/etc/systemd/system/multi-user.target.wants/#{service_name}.service" do
+  to '/usr/lib/systemd/system/openvpn@.service'
   link_type :symbolic
   not_if { service_name == 'openvpn' }
 end
