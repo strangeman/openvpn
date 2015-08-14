@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the openvpn cookbook.
 
+0.1.4
+-----
+- Setup iptables and sysctl
+- Initial RHEL support
+
 0.1.3
 -----
 - Remove knife plugin
