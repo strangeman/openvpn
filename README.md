@@ -20,6 +20,9 @@ Installs and configures OpenVPN.
 
 * `node['openvpn']['server_name']` -  Defaults to `"default"`.
 * `node['openvpn']['install_epel']` -  Defaults to `true`.
+* `node['openvpn']['ip_forward']` -  Defaults to `true`.
+* `node['openvpn']['iptables']['postrouting']` -  Defaults to `true` for `RHEL` based platforms.
+* `node['openvpn']['iptables']['interface']` -  Defaults to `eth0`.
 * `node['openvpn']['default']['remote_host']` -  Defaults to `"vpn.example.com"`.
 * `node['openvpn']['default']['server_ip']` -  Defaults to `"127.0.0.1"`.
 * `node['openvpn']['default']['port']` -  Defaults to `"1194"`.
