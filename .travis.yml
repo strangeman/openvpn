@@ -1,9 +1,10 @@
 language: ruby
 rvm:
-  - 2.1.5
+- 2.1.5
 script:
-  - bundle exec rubocop
-  - bundle exec foodcritic --contex --epic-fail any .
-notifications:
-  flowdock: d4fbb65de6c9c868a2dfc4b38fbd34c1
+- bundle exec rubocop
+- bundle exec foodcritic --contex --epic-fail any .
 sudo: false
+notifications:
+  slack:
+    secure: mmq/yRxoOAQDNlLnJZqQwx/2kFGh6JLM2kMaQxNLb1+F17CGQ2gryMsnF/M74ccvr5CNLOjKiuqaMPm4EBfKt/8Nh/xHdDTdWd3MazN0cZGWLu4xYMjwlrctyU3kyVX/jl3HB7WaG0mNus3hQPOMl8LxY9KNq3cH9oBZkco9L24=
