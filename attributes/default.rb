@@ -1,8 +1,23 @@
 # Name of openvpn server.
 default['openvpn']['server_name'] = 'default'
 
-# install epel on RHEL based hosts
+# Install epel on RHEL based hosts
 default['openvpn']['install_epel'] = true
+
+# Set net.ipv4.ip_forward to 1
+default['openvpn']['ip_forward'] = true
+
+# Use iptables to NAT routed subnet
+case node['platform_family']
+when 'rhel'
+  postrouting = true
+else
+  postrouting = false
+end
+default['openvpn']['iptables']['postrouting'] = postrouting
+
+# External interface VPN traffic will go out of to the outside world
+default['openvpn']['iptables']['interface'] = 'eth0'
 
 # This address will be used for clients config as vpn server address.
 default['openvpn']['default']['remote_host'] = 'vpn.example.com'
