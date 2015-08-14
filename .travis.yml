@@ -6,3 +6,4 @@ script:
   - bundle exec foodcritic --contex --epic-fail any .
 notifications:
   flowdock: d4fbb65de6c9c868a2dfc4b38fbd34c1
+sudo: false
