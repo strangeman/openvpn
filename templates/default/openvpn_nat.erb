@@ -1,0 +1,2 @@
+*nat
+-I POSTROUTING -s <%= @subnet %>/<%= @cidr %> -o <%= @interface %> -j MASQUERADE

@@ -12,4 +12,6 @@ recipe           'openvpn::default', 'Installs and configures OpenVPN.'
   supports os
 end
 
+depends 'iptables'
+depends 'sysctl'
 depends 'yum-epel'
