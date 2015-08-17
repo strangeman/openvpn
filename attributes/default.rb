@@ -64,6 +64,8 @@ default['openvpn']['default']['push_dns_server'] = false
 default['openvpn']['default']['script_security'] = 1
 # Use tls-auth
 default['openvpn']['default']['use_tls_auth'] = true
+# Use a chroot environment
+default['openvpn']['default']['chroot'] = false
 
 default['openvpn']['default']['users'] = []
 default['openvpn']['default']['revoked_users'] = []
