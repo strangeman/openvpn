@@ -62,6 +62,8 @@ default['openvpn']['default']['redirect_gateway'] = false
 default['openvpn']['default']['push_dns_server'] = false
 # Set it to "2" for bridged mode to allow script execution needed to configure network interfaces
 default['openvpn']['default']['script_security'] = 1
+# Use tls-auth
+default['openvpn']['default']['use_tls_auth'] = true
 
 default['openvpn']['default']['users'] = []
 default['openvpn']['default']['revoked_users'] = []

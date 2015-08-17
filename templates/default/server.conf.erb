@@ -36,6 +36,7 @@ ifconfig-pool-persist /etc/openvpn/<%= @server_name %>/<%= @server_name %>.ipp
 <%= "comp-lzo" if @config[:comp_lzo] %>
 <%= "cipher #{@config[:cipher]}" if @config[:cipher] %>
 script-security <%= @config[:script_security] %>
+<%= "tls-auth /etc/openvpn/<%= @server_name %>/keys/ta.key 0" if @config[:use_tls_auth] =>
 
 user openvpn
 group openvpn

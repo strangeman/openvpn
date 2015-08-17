@@ -65,6 +65,7 @@ dh_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", 'openvpn-dh'
 ca_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", 'openvpn-ca')
 crl_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", 'openvpn-crl')
 server_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", 'openvpn-server')
+ta_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", 'openvpn-ta') if config['use_tls_auth']
 
 files = {
   'ca.crt' => ca_item['cert'],
@@ -73,6 +74,8 @@ files = {
   'server.crt' => server_item['cert'],
   'server.key' => server_item['key']
 }
+
+files['ta.key'] = ta_item['ta'] if config['use_tls_auth']
 
 files.each do |name, content|
   file "/etc/openvpn/#{server_name}/keys/#{name}" do
