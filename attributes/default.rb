@@ -66,6 +66,10 @@ default['openvpn']['default']['script_security'] = 1
 default['openvpn']['default']['use_tls_auth'] = true
 # Use a chroot environment
 default['openvpn']['default']['chroot'] = false
+# Setup a client config directory
+default['openvpn']['default']['client_config_dir'] = false
+# Force each client to have a ccd config file (ignored if client_config_dir is false)
+default['openvpn']['default']['ccd_exclusive'] = false
 
 default['openvpn']['default']['users'] = []
 default['openvpn']['default']['revoked_users'] = []

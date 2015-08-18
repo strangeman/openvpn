@@ -39,6 +39,9 @@ script-security <%= @config[:script_security] %>
 <%= "tls-auth /etc/openvpn/<%= @server_name %>/keys/ta.key 0" if @config[:use_tls_auth] %>
 <%= "chroot /etc/openvpn/<%= @server_name %>/" if @config[:chroot] %>
 
+<%= 'client-config-dir ccd' if @config[:client_config_dir] %>
+<%= 'ccd-exclusive' if @config[:ccd_exclusive] && @config[:client_config_dir] %>
+
 user openvpn
 group openvpn
 

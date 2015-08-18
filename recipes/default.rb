@@ -55,6 +55,28 @@ directory "/etc/openvpn/#{server_name}/keys" do
   mode '0770'
 end
 
+directory "/etc/openvpn/#{server_name}/ccd" do
+  owner 'root'
+  group 'openvpn'
+  mode '0750'
+  only_if { config['client_config_dir'] }
+end
+
+if config['client_config_dir'] && config['ccd_exclusive']
+  server_databags = Chef::DataBag.list(true)["openvpn-#{server_name}"]
+  clients = server_databags.keys.reject { |x| x =~ /openvpn/ }
+
+  clients.each do |client|
+    client_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", client)
+    file "/etc/openvpn/#{server_name}/ccd/#{client}" do
+      owner 'root'
+      group 'openvpn'
+      mode '0644'
+      content client_item['config'] | ''
+    end
+  end
+end
+
 directory '/var/log/openvpn' do
   owner 'root'
   group 'root'
