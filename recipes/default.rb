@@ -72,7 +72,7 @@ if config['client_config_dir'] && config['ccd_exclusive']
       owner 'root'
       group 'openvpn'
       mode '0644'
-      content client_item['config'] | ''
+      content client_item['config'] || ''
     end
   end
 end
