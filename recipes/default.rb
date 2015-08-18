@@ -98,7 +98,7 @@ server_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", 'openvpn
 ta_item = {}
 if config['use_tls_auth']
   begin
-    ta_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", 'openvpn-ta') if config['use_tls_auth']
+    ta_item = Hash(Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", 'openvpn-ta')) if config['use_tls_auth']
   rescue Net::HTTPServerException
     # Generate ta.key file since there isn't a data bag yet
     execute "openvpn --genkey --secret /etc/openvpn/#{server_name}/keys/ta.key" do
