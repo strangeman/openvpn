@@ -62,6 +62,13 @@ directory "/etc/openvpn/#{server_name}/ccd" do
   only_if { config['client_config_dir'] }
 end
 
+directory "/etc/openvpn/#{server_name}/tmp" do
+  owner 'root'
+  group 'openvpn'
+  mode '0750'
+  only_if { config['chroot'] }
+end
+
 if config['client_config_dir'] && config['ccd_exclusive']
   server_databags = Chef::DataBag.list(true)["openvpn-#{server_name}"]
   clients = server_databags.keys.reject { |x| x =~ /openvpn/ }
