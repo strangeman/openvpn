@@ -62,6 +62,14 @@ default['openvpn']['default']['redirect_gateway'] = false
 default['openvpn']['default']['push_dns_server'] = false
 # Set it to "2" for bridged mode to allow script execution needed to configure network interfaces
 default['openvpn']['default']['script_security'] = 1
+# Use tls-auth
+default['openvpn']['default']['use_tls_auth'] = true
+# Use a chroot environment
+default['openvpn']['default']['chroot'] = false
+# Setup a client config directory
+default['openvpn']['default']['client_config_dir'] = false
+# Force each client to have a ccd config file (ignored if client_config_dir is false)
+default['openvpn']['default']['ccd_exclusive'] = false
 
 default['openvpn']['default']['users'] = []
 default['openvpn']['default']['revoked_users'] = []

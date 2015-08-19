@@ -55,6 +55,35 @@ directory "/etc/openvpn/#{server_name}/keys" do
   mode '0770'
 end
 
+directory "/etc/openvpn/#{server_name}/ccd" do
+  owner 'root'
+  group 'openvpn'
+  mode '0750'
+  only_if { config['client_config_dir'] }
+end
+
+directory "/etc/openvpn/#{server_name}/tmp" do
+  owner 'root'
+  group 'openvpn'
+  mode '0750'
+  only_if { config['chroot'] }
+end
+
+if config['client_config_dir'] && config['ccd_exclusive']
+  server_databags = Chef::DataBag.list(true)["openvpn-#{server_name}"]
+  clients = server_databags.keys.reject { |x| x =~ /openvpn/ }
+
+  clients.each do |client|
+    client_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", client)
+    file "/etc/openvpn/#{server_name}/ccd/#{client}" do
+      owner 'root'
+      group 'openvpn'
+      mode '0644'
+      content client_item['config'] || ''
+    end
+  end
+end
+
 directory '/var/log/openvpn' do
   owner 'root'
   group 'root'
@@ -66,6 +95,38 @@ ca_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", 'openvpn-ca'
 crl_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", 'openvpn-crl')
 server_item = Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", 'openvpn-server')
 
+ta_item = {}
+if config['use_tls_auth']
+  begin
+    ta_item = Hash(Chef::EncryptedDataBagItem.load("openvpn-#{server_name}", 'openvpn-ta')) if config['use_tls_auth']
+  rescue Net::HTTPServerException
+    # Generate ta.key file since there isn't a data bag yet
+    execute "openvpn --genkey --secret /etc/openvpn/#{server_name}/keys/ta.key" do
+      not_if { File.exist?("/etc/openvpn/#{server_name}/keys/ta.key") }
+    end
+    key_data = File.read("/etc/openvpn/#{server_name}/keys/ta.key")
+
+    ta_item = {
+      'id' => 'openvpn-ta',
+      'ta' => key_data
+    }
+
+    databag_item = Chef::DataBagItem.from_hash(
+      Chef::EncryptedDataBagItem.encrypt_data_bag_item(
+        ta_item,
+        Chef::EncryptedDataBagItem.load_secret)
+    )
+    databag_item.data_bag("openvpn-#{server_name}")
+
+    # Node might not have permissions to upload the data bag
+    begin
+      databag_item.save
+    rescue Net::HTTPServerException
+      Chef::Log.warn("This client does not have permissions to create the openvpn-ta data bag item in the openvpn-#{server_name} data bag!  It will need to be created manually from the contents of the /etc/openvpn/#{server_name}/keys/ta.key file.")
+    end
+  end
+end
+
 files = {
   'ca.crt' => ca_item['cert'],
   'dh.pem' => dh_item['dh'],
@@ -73,6 +134,8 @@ files = {
   'server.crt' => server_item['cert'],
   'server.key' => server_item['key']
 }
+
+files['ta.key'] = ta_item['ta'] if config['use_tls_auth'] && ta_item.include?('ta')
 
 files.each do |name, content|
   file "/etc/openvpn/#{server_name}/keys/#{name}" do

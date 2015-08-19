@@ -13,11 +13,20 @@ server <%= "#{@config[:subnet]} #{@config[:netmask]}" %>
 local <%= @config[:server_ip] %>
 <% end -%>
 
+tmp-dir /tmp
+status /var/log/openvpn/<%= @server_name %>-status.log
+log-append /var/log/openvpn/<%= @server_name %>.log
+
+<% if @config[:chroot] -%>
+crl-verify keys/crl.pem
+<% else -%>
+crl-verify /etc/openvpn/<%= @server_name %>/keys/crl.pem
+<% end -%>
+
 ca   /etc/openvpn/<%= @server_name %>/keys/ca.crt
 cert /etc/openvpn/<%= @server_name %>/keys/server.crt
 key  /etc/openvpn/<%= @server_name %>/keys/server.key
 dh   /etc/openvpn/<%= @server_name %>/keys/dh.pem
-crl-verify /etc/openvpn/<%= @server_name %>/keys/crl.pem
 
 ifconfig-pool-persist /etc/openvpn/<%= @server_name %>/<%= @server_name %>.ipp
 <% (@config[:push] || []).each do |directive| -%>
@@ -36,6 +45,11 @@ ifconfig-pool-persist /etc/openvpn/<%= @server_name %>/<%= @server_name %>.ipp
 <%= "comp-lzo" if @config[:comp_lzo] %>
 <%= "cipher #{@config[:cipher]}" if @config[:cipher] %>
 script-security <%= @config[:script_security] %>
+<%= "tls-auth /etc/openvpn/#{@server_name}/keys/ta.key 0" if @config[:use_tls_auth] %>
+<%= "chroot /etc/openvpn/#{@server_name}/" if @config[:chroot] %>
+
+<%= 'client-config-dir ccd' if @config[:client_config_dir] %>
+<%= 'ccd-exclusive' if @config[:ccd_exclusive] && @config[:client_config_dir] %>
 
 user openvpn
 group openvpn
@@ -43,8 +57,5 @@ group openvpn
 persist-key
 persist-tun
 
-tmp-dir /tmp
-status /var/log/openvpn/<%= @server_name %>-status.log
-log-append /var/log/openvpn/<%= @server_name %>.log
 verb <%= @config[:verb] %>
 mute 20

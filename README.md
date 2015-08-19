@@ -48,6 +48,10 @@ Installs and configures OpenVPN.
 * `node['openvpn']['default']['redirect_gateway']` -  Defaults to `"false"`.
 * `node['openvpn']['default']['push_dns_server']` -  Defaults to `"false"`.
 * `node['openvpn']['default']['script_security']` -  Defaults to `"1"`.
+* `node['openvpn']['default']['use_tls_auth']` -  Defaults to `"true"`.
+* `node['openvpn']['default']['chroot']` -  Defaults to `"false"`.
+* `node['openvpn']['default']['client_config_dir']` -  Defaults to `"false"`.
+* `node['openvpn']['default']['ccd_exclusive']` -  Defaults to `"false"`.
 * `node['openvpn']['default']['users']` -  Defaults to `"[ ... ]"`.
 * `node['openvpn']['default']['revoked_users']` -  Defaults to `"[ ... ]"`.
 
