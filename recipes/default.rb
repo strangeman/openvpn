@@ -142,7 +142,6 @@ files.each do |name, content|
     owner 'openvpn'
     group 'openvpn'
     mode '0600'
-    action :create_if_missing
     content content
     sensitive true
   end
