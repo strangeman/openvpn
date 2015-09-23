@@ -137,6 +137,8 @@ files = {
 
 files['ta.key'] = ta_item['ta'] if config['use_tls_auth'] && ta_item.include?('ta')
 
+service_name = node['platform_family'] == 'rhel' && node['platform_version'].to_f >= 7.0 ? "openvpn@#{server_name}" : 'openvpn'
+
 files.each do |name, content|
   file "/etc/openvpn/#{server_name}/keys/#{name}" do
     owner 'openvpn'
@@ -144,10 +146,9 @@ files.each do |name, content|
     mode '0600'
     content content
     sensitive true
+    notifies :restart, "service[#{service_name}]", :delayed
   end
 end
-
-service_name = node['platform_family'] == 'rhel' && node['platform_version'].to_f >= 7.0 ? "openvpn@#{server_name}" : 'openvpn'
 
 service service_name do
   action [:enable]
