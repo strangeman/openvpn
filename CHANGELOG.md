@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the openvpn cookbook.
 
+0.1.5
+-----
+- Recreate pem files if they where changed
+- Restart openvpn service if server files were changed
+
+
 0.1.4
 -----
 - Setup iptables and sysctl
