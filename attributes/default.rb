@@ -8,12 +8,13 @@ default['openvpn']['install_epel'] = true
 default['openvpn']['ip_forward'] = true
 
 # Use iptables to NAT routed subnet
-case node['platform_family']
-when 'rhel'
-  postrouting = true
-else
-  postrouting = false
-end
+postrouting = case node['platform_family']
+              when 'rhel'
+                true
+              else
+                false
+              end
+
 default['openvpn']['iptables']['postrouting'] = postrouting
 
 # External interface VPN traffic will go out of to the outside world
