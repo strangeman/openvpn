@@ -30,3 +30,4 @@ default['openvpn']['default']['cipher'] = false
 default['openvpn']['default']['redirect_gateway'] = false
 default['openvpn']['default']['push_dns_server'] = false
 default['openvpn']['default']['script_security'] = 1
+default['openvpn']['default']['ifconfig_pool_persist'] = true

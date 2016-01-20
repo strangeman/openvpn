@@ -3,6 +3,10 @@ openvpn CHANGELOG
 
 This file is used to list changes made in each version of the openvpn cookbook.
 
+0.1.7
+-----
+- New attribute ifconfig_pool_persist (bool).
+
 0.1.0
 -----
 - [your_name] - Initial release of openvpn
