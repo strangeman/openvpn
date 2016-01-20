@@ -28,7 +28,9 @@ cert /etc/openvpn/<%= @server_name %>/keys/server.crt
 key  /etc/openvpn/<%= @server_name %>/keys/server.key
 dh   /etc/openvpn/<%= @server_name %>/keys/dh.pem
 
+<% if @config[:ifconfig_pool_persist] -%>
 ifconfig-pool-persist /etc/openvpn/<%= @server_name %>/<%= @server_name %>.ipp
+<% end -%>
 <% (@config[:push] || []).each do |directive| -%>
 <%= "push '#{directive}'" %>
 <% end -%>

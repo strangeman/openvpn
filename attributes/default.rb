@@ -48,6 +48,7 @@ default['openvpn']['default']['verb'] = '3'
 # Array of route strings that will be pushed on client connect.
 default['openvpn']['default']['push'] = []
 default['openvpn']['default']['duplicate_cn'] = false
+default['openvpn']['default']['ifconfig_pool_persist'] = true
 # True\False. Allow clients talk to each other.
 default['openvpn']['default']['client_to_client'] = false
 default['openvpn']['default']['keepalive_interval'] = 10
