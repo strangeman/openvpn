@@ -8,12 +8,13 @@ default['openvpn']['install_epel'] = true
 default['openvpn']['ip_forward'] = true
 
 # Use iptables to NAT routed subnet
-case node['platform_family']
-when 'rhel'
-  postrouting = true
-else
-  postrouting = false
-end
+postrouting = case node['platform_family']
+              when 'rhel'
+                true
+              else
+                false
+              end
+
 default['openvpn']['iptables']['postrouting'] = postrouting
 
 # External interface VPN traffic will go out of to the outside world
@@ -48,6 +49,7 @@ default['openvpn']['default']['verb'] = '3'
 # Array of route strings that will be pushed on client connect.
 default['openvpn']['default']['push'] = []
 default['openvpn']['default']['duplicate_cn'] = false
+default['openvpn']['default']['ifconfig_pool_persist'] = true
 # True\False. Allow clients talk to each other.
 default['openvpn']['default']['client_to_client'] = false
 default['openvpn']['default']['keepalive_interval'] = 10
