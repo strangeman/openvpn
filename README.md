@@ -54,6 +54,7 @@ Installs and configures OpenVPN.
 * `node['openvpn']['default']['ccd_exclusive']` -  Defaults to `"false"`.
 * `node['openvpn']['default']['users']` -  Defaults to `"[ ... ]"`.
 * `node['openvpn']['default']['revoked_users']` -  Defaults to `"[ ... ]"`.
+* `node['openvpn']['default']['ifconfig_pool_persist']` - Defaults to `"true"`
 
 # Recipes
 
