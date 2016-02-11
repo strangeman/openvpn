@@ -5,6 +5,7 @@ This file is used to list changes made in each version of the openvpn cookbook.
 0.1.6
 -----
 - New attribute ifconfig_pool_persist (bool). 
+
 0.1.5
 -----
 - Recreate pem files if they where changed
