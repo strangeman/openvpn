@@ -28,7 +28,7 @@ suites:
       - recipe[openvpn_test::bridged]
     attributes:
     excludes:
-      - centos-7.1
+      - centos-7.2
   - name: routed
     data_bags_path: test/fixtures/data_bags
     encrypted_data_bag_secret_key_path: test/fixtures/encrypted_data_bag_secret
@@ -36,7 +36,7 @@ suites:
       - recipe[openvpn_test::routed]
     attributes:
     excludes:
-      - centos-7.1
+      - centos-7.2
   - name: bridged-systemd
     data_bags_path: test/fixtures/data_bags
     encrypted_data_bag_secret_key_path: test/fixtures/encrypted_data_bag_secret
@@ -44,7 +44,7 @@ suites:
       - recipe[openvpn_test::bridged_systemd]
     attributes:
     includes:
-      - centos-7.1
+      - centos-7.2
   - name: routed-systemd
     data_bags_path: test/fixtures/data_bags
     encrypted_data_bag_secret_key_path: test/fixtures/encrypted_data_bag_secret
@@ -52,4 +52,4 @@ suites:
       - recipe[openvpn_test::routed_systemd]
     attributes:
     includes:
-      - centos-7.1
+      - centos-7.2
