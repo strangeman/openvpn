@@ -107,29 +107,9 @@ if config['use_tls_auth']
     end
 
     # move key manipulations to execution time
-    ruby_block 'copy key content' do
+    ruby_block 'save ta.key content to databag' do
       block do
-        key_data = File.read("/etc/openvpn/#{server_name}/keys/ta.key")
-
-        ta_item = {
-          'id' => 'openvpn-ta',
-          'ta' => key_data
-        }
-
-        databag_item = Chef::DataBagItem.from_hash(
-          Chef::EncryptedDataBagItem.encrypt_data_bag_item(
-            ta_item,
-            Chef::EncryptedDataBagItem.load_secret
-          )
-        )
-        databag_item.data_bag("openvpn-#{server_name}")
-
-        # Node might not have permissions to upload the data bag
-        begin
-          databag_item.save
-        rescue Net::HTTPServerException
-          Chef::Log.warn("This client does not have permissions to create the openvpn-ta data bag item in the openvpn-#{server_name} data bag!  It will need to be created manually from the contents of the /etc/openvpn/#{server_name}/keys/ta.key file.")
-        end
+        Helpers.save_takey_databag("/etc/openvpn/#{server_name}/keys/ta.key", server_name)
       end
     end
   end
