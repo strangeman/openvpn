@@ -102,28 +102,15 @@ if config['use_tls_auth']
   rescue Net::HTTPServerException
     # Generate ta.key file since there isn't a data bag yet
     execute "openvpn --genkey --secret /etc/openvpn/#{server_name}/keys/ta.key" do
-      not_if { File.exist?("/etc/openvpn/#{server_name}/keys/ta.key") }
+      creates "/etc/openvpn/#{server_name}/keys/ta.key"
+      action :run
     end
-    key_data = File.read("/etc/openvpn/#{server_name}/keys/ta.key")
 
-    ta_item = {
-      'id' => 'openvpn-ta',
-      'ta' => key_data
-    }
-
-    databag_item = Chef::DataBagItem.from_hash(
-      Chef::EncryptedDataBagItem.encrypt_data_bag_item(
-        ta_item,
-        Chef::EncryptedDataBagItem.load_secret
-      )
-    )
-    databag_item.data_bag("openvpn-#{server_name}")
-
-    # Node might not have permissions to upload the data bag
-    begin
-      databag_item.save
-    rescue Net::HTTPServerException
-      Chef::Log.warn("This client does not have permissions to create the openvpn-ta data bag item in the openvpn-#{server_name} data bag!  It will need to be created manually from the contents of the /etc/openvpn/#{server_name}/keys/ta.key file.")
+    # move key manipulations to execution time
+    ruby_block 'save ta.key content to databag' do
+      block do
+        Helpers.save_takey_databag("/etc/openvpn/#{server_name}/keys/ta.key", server_name)
+      end
     end
   end
 end
