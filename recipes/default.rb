@@ -119,7 +119,8 @@ if config['use_tls_auth']
         databag_item = Chef::DataBagItem.from_hash(
           Chef::EncryptedDataBagItem.encrypt_data_bag_item(
             ta_item,
-            Chef::EncryptedDataBagItem.load_secret)
+            Chef::EncryptedDataBagItem.load_secret
+          )
         )
         databag_item.data_bag("openvpn-#{server_name}")
 
