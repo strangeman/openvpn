@@ -18,11 +18,10 @@ Installs and configures OpenVPN.
 
 # Attributes
 
+## Default
+
 * `node['openvpn']['server_name']` -  Defaults to `"default"`.
 * `node['openvpn']['install_epel']` -  Defaults to `true`.
-* `node['openvpn']['ip_forward']` -  Defaults to `true`.
-* `node['openvpn']['iptables']['postrouting']` -  Defaults to `true` for `RHEL` based platforms.
-* `node['openvpn']['iptables']['interface']` -  Defaults to `eth0`.
 * `node['openvpn']['default']['remote_host']` -  Defaults to `"vpn.example.com"`.
 * `node['openvpn']['default']['server_ip']` -  Defaults to `"127.0.0.1"`.
 * `node['openvpn']['default']['port']` -  Defaults to `"1194"`.
@@ -56,9 +55,20 @@ Installs and configures OpenVPN.
 * `node['openvpn']['default']['revoked_users']` -  Defaults to `"[ ... ]"`.
 * `node['openvpn']['default']['ifconfig_pool_persist']` - Defaults to `"true"`
 
+## Iptables
+
+* `node['openvpn']['iptables']['postrouting']` -  Defaults to `true` for `RHEL` based platforms.
+* `node['openvpn']['iptables']['interface']` -  Defaults to `eth0`.
+
+## Sysctl
+
+* `node['openvpn']['ip_forward']` -  Defaults to `true`.
+
 # Recipes
 
 * openvpn::default - Installs and configures OpenVPN.
+* openvpn::sysctl - Configures IP forwarding via sysctl
+* openvpn::iptables - Configures postrouting via iptables
 
 # Server Modes
 
@@ -156,6 +166,10 @@ Otherwise you can generate one with ```openssl rand -base64 512 > .chef/encrypte
   }
 
   ```
+
+* Add ```recipe[openvpn::sysctl]``` if you need to setup net.ipv4.ip_forward with this cookbook. ```node['openvpn']['ip_forward']``` should be set to ```true``` (it's ```true``` by default).
+
+* Add ```recipe[openvpn::iptables]``` if you need to setup nat postrouting with this cookbook.
 
   Chef, run!
 
