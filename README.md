@@ -57,7 +57,7 @@ Installs and configures OpenVPN.
 
 ## Iptables
 
-* `node['openvpn']['iptables']['postrouting']` -  Defaults to `true` for `RHEL` based platforms.
+* `node['openvpn']['iptables']['postrouting']` -  Defaults to `true`.
 * `node['openvpn']['iptables']['interface']` -  Defaults to `eth0`.
 
 ## Sysctl
