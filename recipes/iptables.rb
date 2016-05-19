@@ -24,10 +24,11 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-include_recipe 'iptables' if node['openvpn']['iptables']['postrouting']
+include_recipe 'iptables::default' if node['openvpn']['iptables']['postrouting']
 
 require 'ipaddr'
 
+server_name = node['openvpn']['server_name']
 config = Chef::Mixin::DeepMerge.merge(node['openvpn']['default'].to_hash, node['openvpn'][server_name].to_hash)
 
 iptables_rule 'openvpn_nat' do
@@ -37,10 +38,5 @@ iptables_rule 'openvpn_nat' do
     interface: node['openvpn']['iptables']['interface']
   )
   action :enable
-  only_if { node['openvpn']['iptables']['postrouting'] }
-end
-
-service 'iptables' do
-  action [:enable, :start]
   only_if { node['openvpn']['iptables']['postrouting'] }
 end
