@@ -186,32 +186,6 @@ link "/etc/systemd/system/multi-user.target.wants/#{service_name}.service" do
   not_if { service_name == 'openvpn' }
 end
 
-include_recipe 'sysctl' if node['openvpn']['ip_forward']
-
-sysctl_param 'net.ipv4.ip_forward' do
-  value 1
-  only_if { node['openvpn']['ip_forward'] }
-end
-
-include_recipe 'iptables' if node['openvpn']['iptables']['postrouting']
-
-require 'ipaddr'
-
-iptables_rule 'openvpn_nat' do
-  variables(
-    subnet: config['subnet'],
-    cidr: IPAddr.new(config['netmask']).to_i.to_s(2).count('1'),
-    interface: node['openvpn']['iptables']['interface']
-  )
-  action :enable
-  only_if { node['openvpn']['iptables']['postrouting'] }
-end
-
-service 'iptables' do
-  action [:enable, :start]
-  only_if { node['openvpn']['iptables']['postrouting'] }
-end
-
 service service_name do
   action [:start]
 end

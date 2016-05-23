@@ -9,6 +9,8 @@ source_url 'https://github.com/express42-cookbooks/openvpn' if respond_to?(:sour
 issues_url 'https://github.com/express42-cookbooks/openvpn/issues' if respond_to?(:issues_url)
 
 recipe 'openvpn::default', 'Installs and configures OpenVPN.'
+recipe 'openvpn::sysctl', 'Configures IP forwarding via sysctl.'
+recipe 'openvpn::iptables', 'Configures postrouting via iptables.'
 
 %w( ubuntu debian redhat centos fedora scientific amazon ).each do |os|
   supports os
